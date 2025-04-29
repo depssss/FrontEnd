@@ -1,104 +1,68 @@
-// Signup.jsx
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // untuk pindah halaman
-import "../app.css";
+import React from "react";
+import { Link } from "react-router-dom";
+import Background from "../assets/gambar.svg";
 import LogoIcon from "../assets/logo.svg";
-import Gambar from "../assets/gambar.svg";
 
-const Signup = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("Guest");
-
-  const navigate = useNavigate();
-
-  const handleSignup = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password, role }),
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Register failed");
-
-      alert("Registrasi berhasil!");
-      navigate("/login"); // pindah ke halaman login
-    } catch (err) {
-      alert(err.message);
-    }
-  };
-
+const SignUp = () => {
   return (
-    <div className="login-container">
-      {/* Kiri: Form signup */}
-      <div className="login-form-container h-screen">
-        <img src={LogoIcon} alt="SkyBook Logo" className="logo" />
-        <h2 className="login-title">Sign Up</h2>
-        <p className="login-subtitle">Join SkyBook and start your journey!</p>
+    <div className="min-h-screen flex">
+      {/* Left Side - Form */}
+      <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-8 bg-white">
+        <img src={LogoIcon} alt="SkyBook Logo" className="w-32 mb-4" />
+        <h1 className="text-3xl font-bold mb-1">Sign Up</h1>
+        <p className="mb-6 text-gray-600 text-center">
+          Join SkyBook – Create your account
+        </p>
+        <hr className="w-3/4 mb-6 border-gray-400" />
 
-        <form className="login-form" onSubmit={handleSignup}>
-          <div className="input-container">
-            <label className="input-label">Name</label>
-            <input
-              type="text"
-              className="input-field"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </div>
+        <form className="w-full max-w-sm">
+          <label className="block text-sm font-semibold mb-2">Full Name</label>
+          <input
+            type="text"
+            className="w-full p-3 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            placeholder="Enter your name"
+          />
 
-          <div className="input-container">
-            <label className="input-label">Email</label>
-            <input
-              type="email"
-              className="input-field"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
+          <label className="block text-sm font-semibold mb-2">Email</label>
+          <input
+            type="email"
+            className="w-full p-3 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            placeholder="Enter your email"
+          />
 
-          <div className="input-container">
-            <label className="input-label">Password</label>
-            <input
-              type="password"
-              className="input-field"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
+          <label className="block text-sm font-semibold mb-2">Password</label>
+          <input
+            type="password"
+            className="w-full p-3 mb-6 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            placeholder="Create a password"
+          />
 
-          <div className="input-container">
-            <label className="input-label">Role</label>
-            <select
-              className="input-field"
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-            >
-              <option value="Guest">Guest</option>
-              <option value="Admin">Admin</option>
-            </select>
-          </div>
-
-          <button type="submit" className="submit-btn">
+          <button
+            type="submit"
+            className="w-full bg-blue-400 text-white font-bold py-3 rounded hover:bg-blue-500 transition"
+          >
             Sign Up
           </button>
         </form>
+
+        <p className="mt-6 text-sm text-gray-600">
+          Already have an account?{" "}
+          <Link to="/login" className="text-blue-600 hover:underline">
+            Login
+          </Link>
+        </p>
       </div>
 
-      {/* Kanan: Background Gambar */}
-      <div
-        className="login-image-container"
-        style={{ backgroundImage: `url(${Gambar})` }}
-      ></div>
+      {/* Right Side - Background Image */}
+      <div className="hidden md:block md:w-1/2">
+        <img
+          src={Background}
+          alt="Beach Background"
+          className="w-full h-full object-cover"
+        />
+      </div>
     </div>
   );
 };
 
-export default Signup;
+export default SignUp;

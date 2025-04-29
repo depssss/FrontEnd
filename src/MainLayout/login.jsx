@@ -1,79 +1,65 @@
-// Login.jsx
-import React, { useState } from "react";
-import "../app.css"; // Import App.css untuk styling
+import React from "react";
+import { Link } from "react-router-dom";
+import Background from "../assets/gambar.svg";
 import LogoIcon from "../assets/logo.svg";
-import Gambar from "../assets/gambar.svg";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || "Login failed");
-      alert("Login berhasil");
-    } catch (err) {
-      alert(err.message);
-    }
-  };
-
   return (
-    <div className="login-container">
-      {/* Kiri: Form login */}
-      <div className="login-form-container h-screen">
-        <img src={LogoIcon} alt="SkyBook Logo" className="logo" />
-        <h2 className="login-title">Login</h2>
-        <p className="login-subtitle">Welcome to SkyBook – Let’s go in</p>
+    <div className="min-h-screen flex">
+      {/* Left Side - Form */}
+      <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-8 bg-white">
+        <img src={LogoIcon} alt="SkyBook Logo" className="w-32 mb-4" />
+        <h1 className="text-3xl font-bold mb-1">Login</h1>
+        <p className="mb-6 text-gray-600 text-center">
+          Welcome to SkyBook – Let’s go in
+        </p>
+        <hr className="w-3/4 mb-6 border-gray-400" />
 
-        <form className="login-form" onSubmit={handleLogin}>
-          <div className="input-container">
-            <label className="input-label">Email</label>
-            <input
-              type="email"
-              className="input-field"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+        <form className="w-full max-w-sm">
+          <label className="block text-sm font-semibold mb-2">Email</label>
+          <input
+            type="email"
+            className="w-full p-3 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            placeholder="Enter your email"
+          />
+
+          <label className="block text-sm font-semibold mb-2">Password</label>
+          <input
+            type="password"
+            className="w-full p-3 mb-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            placeholder="Enter your password"
+          />
+
+          <div className="flex justify-end text-sm text-gray-500 mb-4">
+            <Link to="/forgot" className="hover:underline">
+              Forgot?
+            </Link>
           </div>
 
-          <div className="input-container">
-            <label className="input-label">Password</label>
-            <input
-              type="password"
-              className="input-field"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <p className="forgot-password">Forgot?</p>
-          </div>
-
-          <button type="submit" className="submit-btn">
+          <button
+            type="submit"
+            className="w-full bg-blue-400 text-white font-bold py-3 rounded hover:bg-blue-500 transition"
+          >
             Login
           </button>
-
-          <p className="signup-link">
-            Don’t have an account?{" "}
-            <a href="/signup" className="signup-text">
-              Sign Up
-            </a>
-          </p>
         </form>
+
+        <p className="mt-6 text-sm text-gray-600">
+          Don’t have an account?{" "}
+          <Link to="/signup" className="text-blue-600 hover:underline">
+            Sign Up
+          </Link>
+        </p>
       </div>
 
-      {/* Kanan: Background Gambar */}
-      <div
-        className="login-image-container"
-        style={{ backgroundImage: `url(${Gambar})` }}
-      ></div>
+      {/* Right Side - Background Image */}
+      <div className="hidden md:block md:w-1/2">
+        <img
+          src={Background}
+          alt="Beach Background"
+          className="w-full h-full object-cover"
+        />
+      </div>
     </div>
   );
 };
