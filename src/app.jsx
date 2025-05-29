@@ -2,8 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./MainLayout/login";
 import Signup from "./MainLayout/signup";
 import Home from "./MainLayout/homepage";
-import AdminDashboard from "./MainLayout/admin/AdminDashboard";
-import EmoneyPage from './MainLayout/emoney/emoney';
+import Navbarhome from "./components/navbar/navbarhome";
+import Footer from "./components/footer/footer";
 
 function App() {
   return (
@@ -12,8 +12,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/dashboard" element={<AdminDashboard />}/>
-        <Route path="/emoney" element={< emoney/>}/>
+        <Route path="/navbarhome" element={<Navbarhome />} />
+        <Route path="/footer" element={<Footer />} />
         {/* tambahkan route lainnya jika perlu */}
       </Routes>
     </Router>
