@@ -15,6 +15,7 @@ function App() {
         <Route path="/navbarhome" element={<Navbarhome />} />
         <Route path="/footer" element={<Footer />} />
         {/* tambahkan route lainnya jika perlu */}
+        
       </Routes>
     </Router>
   );
