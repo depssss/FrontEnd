@@ -1,6 +1,6 @@
-// Login.jsx
 import React, { useState } from "react";
-import "../app.css"; // Import App.css untuk styling
+import { useNavigate } from "react-router-dom";
+import "../app.css";
 import LogoIcon from "../assets/logo.svg";
 import Gambar from "../assets/gambar.svg";
 
@@ -8,17 +8,32 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigate = useNavigate();
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
+      const res = await fetch("http://localhost:3000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
+
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Login failed");
-      alert("Login berhasil");
+
+      // Simpan token dan role
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("role", data.role);
+
+      alert("Login berhasil!");
+
+      // Arahkan berdasarkan email admin
+      if (email === "admin@gmail.com") {
+        navigate("/dashboard"); // atau "/admin/dashboard" jika path-nya begitu
+      } else {
+        navigate("/user/dashboard");
+      }
     } catch (err) {
       alert(err.message);
     }
@@ -26,11 +41,10 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      {/* Kiri: Form login */}
       <div className="login-form-container h-screen">
         <img src={LogoIcon} alt="SkyBook Logo" className="logo" />
         <h2 className="login-title">Login</h2>
-        <p className="login-subtitle">Welcome to SkyBook – Let’s go in</p>
+        <p className="login-subtitle">Welcome back to SkyBook!</p>
 
         <form className="login-form" onSubmit={handleLogin}>
           <div className="input-container">
@@ -53,23 +67,12 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <p className="forgot-password">Forgot?</p>
           </div>
 
-          <button type="submit" className="submit-btn">
-            Login
-          </button>
-
-          <p className="signup-link">
-            Don’t have an account?{" "}
-            <a href="/signup" className="signup-text">
-              Sign Up
-            </a>
-          </p>
+          <button type="submit" className="submit-btn">Login</button>
         </form>
       </div>
 
-      {/* Kanan: Background Gambar */}
       <div
         className="login-image-container"
         style={{ backgroundImage: `url(${Gambar})` }}
